@@ -5,6 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: "/story-snap-generator/", // Replace with your actual repository name
   server: {
     host: "::",
     port: 8080,
@@ -20,3 +21,5 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
+
+
