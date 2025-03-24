@@ -6,10 +6,10 @@
 // Safe zone coordinates - these define where user photos can appear
 export const SAFE_ZONES = {
   center: {
-    x: 120, // starting x position
-    y: 205, // starting y position
-    width: 840, // width of the safe zone
-    height: 840, // height of the safe zone
+    x: 539 - 452, // starting x position (centered at 539)
+    y: 826 - 564.5, // starting y position (centered at 826)
+    width: 904, // width of the safe zone
+    height: 1129, // height of the safe zone
   }
 };
 
@@ -125,16 +125,18 @@ export const composeImage = (
       ctx.rect(safeZone.x, safeZone.y, safeZone.width, safeZone.height);
       ctx.clip();
       
-      // Calculate dimensions to fill the safe zone while maintaining aspect ratio
+      // Calculate dimensions to cover the safe zone while maintaining aspect ratio
       const aspectRatio = userImage.width / userImage.height;
       let drawWidth, drawHeight;
       
       if (safeZone.width / safeZone.height > aspectRatio) {
         // Safe zone is wider than image (relative to heights)
+        // In this case, we need to match the width and let height overflow
         drawWidth = safeZone.width;
         drawHeight = drawWidth / aspectRatio;
       } else {
         // Safe zone is taller than image (relative to widths)
+        // In this case, we need to match the height and let width overflow
         drawHeight = safeZone.height;
         drawWidth = drawHeight * aspectRatio;
       }
@@ -143,15 +145,16 @@ export const composeImage = (
       drawWidth *= scale;
       drawHeight *= scale;
       
-      // Calculate center position of safe zone
+      // Calculate the center position of the safe zone
       const centerX = safeZone.x + safeZone.width / 2;
       const centerY = safeZone.y + safeZone.height / 2;
       
-      // Draw the image centered in the safe zone with offset and scaling
+      // Draw the image centered in the safe zone
+      // No offset is applied as we're centering the image at specific coordinates
       ctx.drawImage(
         userImage,
-        centerX - drawWidth / 2 + offsetX,
-        centerY - drawHeight / 2 + offsetY,
+        centerX - drawWidth / 2,
+        centerY - drawHeight / 2,
         drawWidth,
         drawHeight
       );

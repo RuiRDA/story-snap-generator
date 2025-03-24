@@ -2,8 +2,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { 
-  Download, Upload, ZoomIn, ZoomOut, Move, RotateCcw 
+  Download, Upload, ZoomIn, ZoomOut, RotateCcw 
 } from "lucide-react";
+import { Slider } from "./ui/slider";
 import {
   composeImage,
   downloadImage,
@@ -20,12 +21,9 @@ const ImageEditor: React.FC = () => {
   const [overlayImage, setOverlayImage] = useState<HTMLImageElement | null>(null);
   const [composedImage, setComposedImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
   
-  // Image position and scale
+  // Image scale
   const [scale, setScale] = useState(1);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
   
   // Refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -119,8 +117,8 @@ const ImageEditor: React.FC = () => {
           img,
           overlayImage,
           scale,
-          offset.x,
-          offset.y
+          0, // No X offset - image is always centered
+          0  // No Y offset - image is always centered
         );
         setComposedImage(dataUrl);
       } else {
@@ -143,7 +141,7 @@ const ImageEditor: React.FC = () => {
     if (overlayImage) {
       updateCanvas();
     }
-  }, [userImage, overlayImage, scale, offset]);
+  }, [userImage, overlayImage, scale]);
   
   // Handle download
   const handleDownload = async () => {
@@ -173,77 +171,9 @@ const ImageEditor: React.FC = () => {
     setScale(prev => Math.max(prev - 0.1, 0.5));
   };
   
-  // Handle image dragging
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!userImage) return; // Only allow dragging if there's a user image
-    setIsDragging(true);
-    setDragStartPos({ x: e.clientX, y: e.clientY });
-  };
-  
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!userImage) return; // Only allow dragging if there's a user image
-    setIsDragging(true);
-    setDragStartPos({ 
-      x: e.touches[0].clientX, 
-      y: e.touches[0].clientY 
-    });
-  };
-  
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging || !userImage) return;
-    
-    const dx = e.clientX - dragStartPos.x;
-    const dy = e.clientY - dragStartPos.y;
-    
-    // Get container dimensions to calculate movement ratio
-    const container = containerRef.current;
-    if (!container) return;
-    
-    // Calculate ratio between container and actual canvas size
-    const ratioX = CANVAS_DIMENSIONS.width / container.clientWidth;
-    const ratioY = CANVAS_DIMENSIONS.height / container.clientHeight;
-    
-    setOffset(prev => ({
-      x: prev.x + (dx / ratioX),
-      y: prev.y + (dy / ratioY)
-    }));
-    
-    setDragStartPos({ x: e.clientX, y: e.clientY });
-  };
-  
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isDragging || !userImage) return;
-    
-    const dx = e.touches[0].clientX - dragStartPos.x;
-    const dy = e.touches[0].clientY - dragStartPos.y;
-    
-    // Get container dimensions to calculate movement ratio
-    const container = containerRef.current;
-    if (!container) return;
-    
-    // Calculate ratio between container and actual canvas size
-    const ratioX = CANVAS_DIMENSIONS.width / container.clientWidth;
-    const ratioY = CANVAS_DIMENSIONS.height / container.clientHeight;
-    
-    setOffset(prev => ({
-      x: prev.x + (dx / ratioX),
-      y: prev.y + (dy / ratioY)
-    }));
-    
-    setDragStartPos({ 
-      x: e.touches[0].clientX, 
-      y: e.touches[0].clientY 
-    });
-  };
-  
-  const handleDragEnd = () => {
-    setIsDragging(false);
-  };
-  
-  // Reset editing
+  // Reset zoom
   const handleReset = () => {
     setScale(1);
-    setOffset({ x: 0, y: 0 });
   };
   
   return (
@@ -253,17 +183,9 @@ const ImageEditor: React.FC = () => {
         <div 
           ref={containerRef}
           className={`relative w-full max-w-sm mx-auto lg:mx-0 aspect-[9/16] border rounded-2xl overflow-hidden
-                      bg-secondary/30 shadow-lg transition-all duration-300
-                      ${isDragging ? 'cursor-grabbing' : userImage ? 'cursor-grab' : ''}`}
+                      bg-secondary/30 shadow-lg transition-all duration-300`}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleDragEnd}
-          onMouseLeave={handleDragEnd}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleDragEnd}
         >
           {/* Canvas for compositing */}
           <canvas 
@@ -341,14 +263,13 @@ const ImageEditor: React.FC = () => {
                   >
                     <ZoomOut className="w-4 h-4" />
                   </button>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="3"
-                    step="0.1"
-                    value={scale}
-                    onChange={e => setScale(parseFloat(e.target.value))}
-                    className="flex-1 accent-primary h-2 bg-secondary rounded-full appearance-none cursor-pointer"
+                  <Slider
+                    min={0.5}
+                    max={3}
+                    step={0.1}
+                    value={[scale]}
+                    onValueChange={(value) => setScale(value[0])}
+                    className="flex-1"
                   />
                   <button 
                     className="btn-icon" 
@@ -360,18 +281,14 @@ const ImageEditor: React.FC = () => {
                 </div>
               </div>
               
-              {/* Position info */}
+              {/* Reset zoom button */}
               <div className="rounded-lg p-4 bg-secondary/50">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                  <Move className="w-4 h-4" />
-                  <span>Drag the image to adjust position</span>
-                </div>
                 <button 
                   className="flex items-center gap-1.5 text-sm text-foreground hover:text-primary transition-colors"
                   onClick={handleReset}
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Reset position and zoom
+                  Reset zoom
                 </button>
               </div>
               
