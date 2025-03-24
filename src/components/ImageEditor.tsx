@@ -48,7 +48,7 @@ const ImageEditor: React.FC = () => {
       }
     };
     img.onerror = () => toast.error("Failed to load overlay image");
-    img.src = "/lovable-uploads/e77661f0-ee92-47aa-ba3b-055b36b8a166.png";
+    img.src = "/lovable-uploads/13481e1a-7a37-49f2-a57b-fbe53ce70087.png";
   }, []);
 
   // Handle file selection
