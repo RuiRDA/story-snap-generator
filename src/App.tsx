@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
+    <BrowserRouter basename="/story-snap-generator/">
       {/* Wrap the application content with TooltipProvider */}
       <TooltipProvider>
         <Routes>
@@ -22,7 +22,7 @@ const App = () => (
         
         {/* Toast notifications */}
         <Toaster />
-        <Sonner 
+        <Sonner
           position="top-center"
           closeButton
           richColors
