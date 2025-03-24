@@ -35,7 +35,20 @@ const ImageEditor: React.FC = () => {
   // Load the overlay image on component mount
   useEffect(() => {
     const img = new Image();
-    img.onload = () => setOverlayImage(img);
+    img.onload = () => {
+      setOverlayImage(img);
+      
+      // Initially display just the overlay
+      if (canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d');
+        if (ctx) {
+          canvasRef.current.width = CANVAS_DIMENSIONS.width;
+          canvasRef.current.height = CANVAS_DIMENSIONS.height;
+          ctx.drawImage(img, 0, 0, CANVAS_DIMENSIONS.width, CANVAS_DIMENSIONS.height);
+          setComposedImage(canvasRef.current.toDataURL("image/png"));
+        }
+      }
+    };
     img.onerror = () => toast.error("Failed to load overlay image");
     img.src = "/lovable-uploads/e77661f0-ee92-47aa-ba3b-055b36b8a166.png";
   }, []);
@@ -96,18 +109,30 @@ const ImageEditor: React.FC = () => {
   
   // Update canvas with current settings
   const updateCanvas = async (img = userImage) => {
-    if (!canvasRef.current || !img || !overlayImage) return;
+    if (!canvasRef.current || !overlayImage) return;
     
     try {
-      const dataUrl = await composeImage(
-        canvasRef.current,
-        img,
-        overlayImage,
-        scale,
-        offset.x,
-        offset.y
-      );
-      setComposedImage(dataUrl);
+      if (img) {
+        // If user image exists, compose it with the overlay
+        const dataUrl = await composeImage(
+          canvasRef.current,
+          img,
+          overlayImage,
+          scale,
+          offset.x,
+          offset.y
+        );
+        setComposedImage(dataUrl);
+      } else {
+        // If no user image, just show the overlay
+        const ctx = canvasRef.current.getContext('2d');
+        if (ctx) {
+          canvasRef.current.width = CANVAS_DIMENSIONS.width;
+          canvasRef.current.height = CANVAS_DIMENSIONS.height;
+          ctx.drawImage(overlayImage, 0, 0, CANVAS_DIMENSIONS.width, CANVAS_DIMENSIONS.height);
+          setComposedImage(canvasRef.current.toDataURL("image/png"));
+        }
+      }
     } catch (error) {
       toast.error("Failed to update preview");
     }
@@ -115,7 +140,7 @@ const ImageEditor: React.FC = () => {
   
   // Update canvas when state changes
   useEffect(() => {
-    if (userImage && overlayImage) {
+    if (overlayImage) {
       updateCanvas();
     }
   }, [userImage, overlayImage, scale, offset]);
@@ -150,11 +175,13 @@ const ImageEditor: React.FC = () => {
   
   // Handle image dragging
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!userImage) return; // Only allow dragging if there's a user image
     setIsDragging(true);
     setDragStartPos({ x: e.clientX, y: e.clientY });
   };
   
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!userImage) return; // Only allow dragging if there's a user image
     setIsDragging(true);
     setDragStartPos({ 
       x: e.touches[0].clientX, 
@@ -163,7 +190,7 @@ const ImageEditor: React.FC = () => {
   };
   
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
+    if (!isDragging || !userImage) return;
     
     const dx = e.clientX - dragStartPos.x;
     const dy = e.clientY - dragStartPos.y;
@@ -185,7 +212,7 @@ const ImageEditor: React.FC = () => {
   };
   
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isDragging) return;
+    if (!isDragging || !userImage) return;
     
     const dx = e.touches[0].clientX - dragStartPos.x;
     const dy = e.touches[0].clientY - dragStartPos.y;
@@ -230,12 +257,12 @@ const ImageEditor: React.FC = () => {
                       ${isDragging ? 'cursor-grabbing' : userImage ? 'cursor-grab' : ''}`}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          onMouseDown={userImage ? handleMouseDown : undefined}
-          onMouseMove={userImage ? handleMouseMove : undefined}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
           onMouseUp={handleDragEnd}
           onMouseLeave={handleDragEnd}
-          onTouchStart={userImage ? handleTouchStart : undefined}
-          onTouchMove={userImage ? handleTouchMove : undefined}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           onTouchEnd={handleDragEnd}
         >
           {/* Canvas for compositing */}
@@ -255,25 +282,24 @@ const ImageEditor: React.FC = () => {
             />
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
-              {isProcessing ? (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="animate-spin w-8 h-8 border-2 border-primary rounded-full border-t-transparent"></div>
-                  <p>Processing image...</p>
-                </div>
-              ) : (
-                <div 
-                  className="flex flex-col items-center gap-4 p-6 text-center transition-all duration-300 hover:opacity-80"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
-                    <Upload className="w-8 h-8 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground mb-1">Drop image here</p>
-                    <p className="text-sm">or click to browse</p>
-                  </div>
-                </div>
-              )}
+              <div className="flex flex-col items-center gap-3">
+                <div className="animate-spin w-8 h-8 border-2 border-primary rounded-full border-t-transparent"></div>
+                <p>Loading preview...</p>
+              </div>
+            </div>
+          )}
+          
+          {/* Upload indicator overlay */}
+          {!userImage && !isProcessing && (
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 transition-all duration-300 hover:bg-black/40"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 text-center shadow-lg">
+                <Upload className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="font-medium text-foreground">Drop your photo here</p>
+                <p className="text-sm text-muted-foreground">or click to browse</p>
+              </div>
             </div>
           )}
           
