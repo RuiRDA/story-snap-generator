@@ -48,7 +48,7 @@ const ImageEditor: React.FC = () => {
       }
     };
     img.onerror = () => toast.error("Failed to load overlay image");
-    img.src = "/lovable-uploads/metodo_ip_eu_vou_overlay_sharp.png";
+    img.src = import.meta.env.BASE_URL + "lovable-uploads/metodo_ip_eu_vou_overlay_sharp.png";
   }, []);
 
   // Handle file selection
