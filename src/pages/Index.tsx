@@ -5,7 +5,7 @@ import ImageEditor from "../components/ImageEditor";
 const Index = () => {
   // Set page title
   useEffect(() => {
-    document.title = "Método IP - Instagram Story Generator";
+    document.title = "Método IP - Gerador de Stories para Instagram";
   }, []);
 
   return (
@@ -17,7 +17,7 @@ const Index = () => {
             <span className="font-bold text-xl text-primary">#EUVOU</span>
             <span className="font-bold text-lg">MÉTODO IP</span>
           </div>
-          <p className="text-sm text-muted-foreground hidden sm:block">Instagram Story Generator</p>
+          <p className="text-sm text-muted-foreground hidden sm:block">Método IP - Stories para Instagram</p>
         </div>
       </header>
 
@@ -30,7 +30,7 @@ const Index = () => {
       <footer className="w-full py-6 px-4 border-t bg-background/80 backdrop-blur-lg">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Método IP - All rights reserved
+            © {new Date().getFullYear()} Método IP - Todos os direitos reservados
           </p>
         </div>
       </footer>

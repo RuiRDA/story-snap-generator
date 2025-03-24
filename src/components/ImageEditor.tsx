@@ -206,7 +206,7 @@ const ImageEditor: React.FC = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
               <div className="flex flex-col items-center gap-3">
                 <div className="animate-spin w-8 h-8 border-2 border-primary rounded-full border-t-transparent"></div>
-                <p>Loading preview...</p>
+                <p>A carregar pré-visualização...</p>
               </div>
             </div>
           )}
@@ -219,8 +219,8 @@ const ImageEditor: React.FC = () => {
             >
               <div className="bg-white/90 backdrop-blur-sm rounded-lg p-4 text-center shadow-lg">
                 <Upload className="w-8 h-8 text-primary mx-auto mb-2" />
-                <p className="font-medium text-foreground">Drop your photo here</p>
-                <p className="text-sm text-muted-foreground">or click to browse</p>
+                <p className="font-medium text-foreground">Solte a sua foto aqui</p>
+                <p className="text-sm text-muted-foreground">ou clique para procurar</p>
               </div>
             </div>
           )}
@@ -238,9 +238,9 @@ const ImageEditor: React.FC = () => {
         {/* Controls */}
         <div className="w-full lg:flex-1 space-y-8">
           <div className="text-center lg:text-left animate-slide-up">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Story Image Generator</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Gerador de Imagens para Stories</h1>
             <p className="text-muted-foreground text-sm sm:text-base md:px-0">
-              Create Instagram Story images by positioning your photo within the Método IP event frame.
+              Crie imagens para Instagram Stories posicionando a sua foto dentro do frame do evento Método IP.
             </p>
           </div>
           
@@ -251,7 +251,7 @@ const ImageEditor: React.FC = () => {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-medium flex items-center gap-2">
                     <ZoomIn className="w-4 h-4" />
-                    Image Size
+                    Tamanho da Imagem
                   </label>
                   <span className="text-sm text-muted-foreground">{Math.round(scale * 100)}%</span>
                 </div>
@@ -288,7 +288,7 @@ const ImageEditor: React.FC = () => {
                   onClick={handleReset}
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Reset zoom
+                  Repor zoom
                 </button>
               </div>
               
@@ -301,12 +301,12 @@ const ImageEditor: React.FC = () => {
                 {isProcessing ? (
                   <span className="flex items-center justify-center gap-2">
                     <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin"></div>
-                    Processing...
+                    A processar...
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <Download className="w-5 h-5" />
-                    Download Story Image
+                    Descarregar Imagem para Story
                   </span>
                 )}
               </button>
@@ -317,7 +317,7 @@ const ImageEditor: React.FC = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  Upload a different photo
+                  Carregar outra foto
                 </button>
               </div>
             </div>
@@ -326,7 +326,7 @@ const ImageEditor: React.FC = () => {
               <div className="p-6 border border-dashed rounded-lg bg-secondary/30">
                 <div className="text-center space-y-3">
                   <p className="text-sm text-muted-foreground">
-                    Upload an image to create your Instagram Story confirmation.
+                    Carregue uma imagem para criar a sua confirmação para Instagram Story.
                   </p>
                   <button
                     className="btn-primary w-full mt-4" 
@@ -334,26 +334,26 @@ const ImageEditor: React.FC = () => {
                   >
                     <span className="flex items-center justify-center gap-2">
                       <Upload className="w-5 h-5" />
-                      Select Image
+                      Selecionar Imagem
                     </span>
                   </button>
                 </div>
               </div>
               
               <div className="space-y-3">
-                <h3 className="text-sm font-medium">Requirements:</h3>
+                <h3 className="text-sm font-medium">Requisitos:</h3>
                 <ul className="text-sm space-y-1.5 text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5"></div>
-                    <span>JPG or PNG image format</span>
+                    <span>Formato de imagem JPG ou PNG</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5"></div>
-                    <span>File size under 10MB</span>
+                    <span>Tamanho do ficheiro inferior a 10MB</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5"></div>
-                    <span>Best results with portrait-oriented photos</span>
+                    <span>Melhores resultados com fotos em formato retrato</span>
                   </li>
                 </ul>
               </div>
