@@ -1,8 +1,7 @@
-
 import React, { useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { 
-  Download, Upload, ZoomIn, ZoomOut, Move, RotateCcw 
+  Download, Upload, ZoomIn, ZoomOut, Move, RotateCcw, Image
 } from "lucide-react";
 import {
   composeImage,
@@ -13,6 +12,7 @@ import {
   validateImageFile,
   stripExifData
 } from "../utils/imageProcessing";
+import PreviewModal from "./PreviewModal";
 
 const ImageEditor: React.FC = () => {
   // State for the uploaded image
@@ -26,6 +26,9 @@ const ImageEditor: React.FC = () => {
   // Image position and scale
   const [scale, setScale] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  
+  // Preview modal state
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   
   // Refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -219,6 +222,15 @@ const ImageEditor: React.FC = () => {
     setOffset({ x: 0, y: 0 });
   };
   
+  // Handle preview
+  const handleOpenPreview = () => {
+    if (composedImage) {
+      setIsPreviewOpen(true);
+    } else {
+      toast.error("No image to preview");
+    }
+  };
+  
   return (
     <div className="w-full max-w-7xl mx-auto px-4 md:px-6 animate-fade-in">
       <div className="flex flex-col lg:flex-row gap-8 items-center">
@@ -349,9 +361,20 @@ const ImageEditor: React.FC = () => {
                 </button>
               </div>
               
+              {/* Preview Button (new) */}
+              <button
+                className="btn-secondary w-full"
+                onClick={handleOpenPreview}
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <Image className="w-5 h-5" />
+                  Preview at full size
+                </span>
+              </button>
+              
               {/* Download Button */}
               <button
-                className="btn-primary w-full mt-4 py-4"
+                className="btn-primary w-full py-4"
                 onClick={handleDownload}
                 disabled={isProcessing}
               >
@@ -418,6 +441,13 @@ const ImageEditor: React.FC = () => {
           )}
         </div>
       </div>
+      
+      {/* Preview Modal */}
+      <PreviewModal 
+        imageUrl={composedImage}
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+      />
     </div>
   );
 };
