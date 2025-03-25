@@ -1,6 +1,7 @@
 
 import { useEffect } from "react";
-import ImageEditor from "../components/ImageEditor";
+import StoryImageEditor from "../components/StoryImageEditor";
+import FeedImageEditor from "../components/FeedImageEditor";
 
 const Index = () => {
   // Set page title
@@ -17,13 +18,16 @@ const Index = () => {
             <span className="font-bold text-xl text-primary">#EUVOU</span>
             <span className="font-bold text-lg">MÉTODO IP</span>
           </div>
-          <p className="text-sm text-muted-foreground hidden sm:block">Método IP - Stories para Instagram</p>
+          <p className="text-sm text-muted-foreground hidden sm:block">Método IP - Imagens para Instagram</p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="pt-28 pb-20">
-        <ImageEditor />
+      <main className="pt-28 pb-20">  
+        <FeedImageEditor />
+        <div className="mt-8"></div>
+        <StoryImageEditor />
+      
       </main>
 
       {/* Footer */}

@@ -9,11 +9,11 @@ import {
   composeImage,
   downloadImage,
   optimizeForInstagram,
-  CANVAS_DIMENSIONS,
+  FEED_CANVAS_DIMENSIONS,
   SAFE_ZONES,
   validateImageFile,
   stripExifData
-} from "../utils/imageProcessing";
+} from "../utils/feedImageProcessing";
 
 const ImageEditor: React.FC = () => {
   // State for the uploaded image
@@ -40,15 +40,15 @@ const ImageEditor: React.FC = () => {
       if (canvasRef.current) {
         const ctx = canvasRef.current.getContext('2d');
         if (ctx) {
-          canvasRef.current.width = CANVAS_DIMENSIONS.width;
-          canvasRef.current.height = CANVAS_DIMENSIONS.height;
-          ctx.drawImage(img, 0, 0, CANVAS_DIMENSIONS.width, CANVAS_DIMENSIONS.height);
+          canvasRef.current.width = FEED_CANVAS_DIMENSIONS.width;
+          canvasRef.current.height = FEED_CANVAS_DIMENSIONS.height;
+          ctx.drawImage(img, 0, 0, FEED_CANVAS_DIMENSIONS.width, FEED_CANVAS_DIMENSIONS.height);
           setComposedImage(canvasRef.current.toDataURL("image/png"));
         }
       }
     };
     img.onerror = () => toast.error("Failed to load overlay image");
-    img.src = import.meta.env.BASE_URL + "lovable-uploads/eu_vou_ip_story.png";
+    img.src = import.meta.env.BASE_URL + "lovable-uploads/eu_vou_ip_feed.png";
   }, []);
 
   // Handle file selection
@@ -125,9 +125,9 @@ const ImageEditor: React.FC = () => {
         // If no user image, just show the overlay
         const ctx = canvasRef.current.getContext('2d');
         if (ctx) {
-          canvasRef.current.width = CANVAS_DIMENSIONS.width;
-          canvasRef.current.height = CANVAS_DIMENSIONS.height;
-          ctx.drawImage(overlayImage, 0, 0, CANVAS_DIMENSIONS.width, CANVAS_DIMENSIONS.height);
+          canvasRef.current.width = FEED_CANVAS_DIMENSIONS.width;
+          canvasRef.current.height = FEED_CANVAS_DIMENSIONS.height;
+          ctx.drawImage(overlayImage, 0, 0, FEED_CANVAS_DIMENSIONS.width, FEED_CANVAS_DIMENSIONS.height);
           setComposedImage(canvasRef.current.toDataURL("image/png"));
         }
       }
@@ -182,7 +182,7 @@ const ImageEditor: React.FC = () => {
         {/* Preview Area */}
         <div 
           ref={containerRef}
-          className={`relative w-full max-w-sm mx-auto lg:mx-0 aspect-[9/16] border rounded-2xl overflow-hidden
+          className={`relative w-full max-w-sm mx-auto lg:mx-0 aspect-[4/5] border rounded-2xl overflow-hidden
                       bg-secondary/30 shadow-lg transition-all duration-300`}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
@@ -191,8 +191,8 @@ const ImageEditor: React.FC = () => {
           <canvas 
             ref={canvasRef}
             className="hidden"
-            width={CANVAS_DIMENSIONS.width}
-            height={CANVAS_DIMENSIONS.height}
+            width={FEED_CANVAS_DIMENSIONS.width}
+            height={FEED_CANVAS_DIMENSIONS.height}
           />
           
           {/* Preview image */}
@@ -238,9 +238,9 @@ const ImageEditor: React.FC = () => {
         {/* Controls */}
         <div className="w-full lg:flex-1 space-y-8">
           <div className="text-center lg:text-left animate-slide-up">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Gerador de Imagens para Stories</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Gerador de Imagens para Feed</h1>
             <p className="text-muted-foreground text-sm sm:text-base md:px-0">
-              Crie imagens para Instagram Stories posicionando a sua foto dentro do frame do evento Método IP.
+              Crie imagens para o Feed do Instagram posicionando a sua foto dentro do frame do evento Método IP.
             </p>
           </div>
           
@@ -306,7 +306,7 @@ const ImageEditor: React.FC = () => {
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <Download className="w-5 h-5" />
-                    Descarregar Imagem para Story
+                    Descarregar Imagem para Feed
                   </span>
                 )}
               </button>
@@ -326,7 +326,7 @@ const ImageEditor: React.FC = () => {
               <div className="p-6 border border-dashed rounded-lg bg-secondary/30">
                 <div className="text-center space-y-3">
                   <p className="text-sm text-muted-foreground">
-                    Carregue uma imagem para criar a sua confirmação para Instagram Story.
+                    Carregue uma imagem para criar a sua confirmação para Instagram Feed.
                   </p>
                   <button
                     className="btn-primary w-full mt-4" 

@@ -6,18 +6,19 @@
 // Safe zone coordinates - these define where user photos can appear
 export const SAFE_ZONES = {
   center: {
-    x: 539 - 452, // starting x position (centered at 539)
-    y: 826 - 564.5, // starting y position (centered at 826)
+    x: 87, // starting x position
+    y: 262, // starting y position
     width: 904, // width of the safe zone
     height: 1129, // height of the safe zone
   }
 };
 
 // Image overlay dimensions
-export const CANVAS_DIMENSIONS = {
+export const STORY_CANVAS_DIMENSIONS = {
   width: 1080,
   height: 1920,
 };
+
 
 // Strip EXIF data from image by redrawing it on a canvas
 export const stripExifData = (
@@ -111,8 +112,8 @@ export const composeImage = (
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Set canvas dimensions to match Instagram story dimensions
-      canvas.width = CANVAS_DIMENSIONS.width;
-      canvas.height = CANVAS_DIMENSIONS.height;
+      canvas.width = STORY_CANVAS_DIMENSIONS.width;
+      canvas.height = STORY_CANVAS_DIMENSIONS.height;
 
       // Get safe zone dimensions
       const safeZone = SAFE_ZONES.center;
