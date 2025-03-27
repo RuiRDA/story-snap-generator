@@ -154,9 +154,9 @@ const ImageEditor: React.FC = () => {
       
       // Download the image
       downloadImage(composedImage);
-      toast.success("Image saved successfully");
+      toast.success("Imagem guardada com sucesso");
     } catch (error) {
-      toast.error("Failed to download image");
+      toast.error("Falha ao descarregar a imagem");
     } finally {
       setIsProcessing(false);
     }

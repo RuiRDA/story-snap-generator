@@ -175,8 +175,43 @@ export const composeImage = (
   });
 };
 
-// Download the composed image
-export const downloadImage = (dataUrl: string, filename: string = "MetodoIP_Confirmation.png") => {
+// Helper function to convert data URL to Blob
+function dataURLtoBlob(dataUrl: string): Blob {
+  const arr = dataUrl.split(",");
+  const mime = arr[0].match(/:(.*?);/)![1]; // Extract MIME type (e.g., image/png)
+  const bstr = atob(arr[1]); // Decode base64 to binary string
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n); // Convert to byte array
+  }
+  return new Blob([u8arr], { type: mime });
+}
+
+// Improved downloadImage function
+export const downloadImage = async (
+  dataUrl: string,
+  filename: string = "MetodoIP_Story_Confirmation.png"
+) => {
+  // Check if Web Share API is supported and can share files
+  if (navigator.share && navigator.canShare) {
+    try {
+      const blob = dataURLtoBlob(dataUrl);
+      const file = new File([blob], filename, { type: blob.type });
+      // Verify that the browser can share this file
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+        });
+        return; // Sharing succeeded, no need for fallback
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+      // Proceed to fallback if sharing fails
+    }
+  }
+
+  // Fallback to original download method
   const link = document.createElement("a");
   link.href = dataUrl;
   link.download = filename;
