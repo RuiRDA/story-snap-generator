@@ -188,13 +188,18 @@ function dataURLtoBlob(dataUrl: string): Blob {
   return new Blob([u8arr], { type: mime });
 }
 
+// Helper function to check if the device is likely mobile
+function isMobileDevice(): boolean {
+  return /Mobi|Android/i.test(navigator.userAgent);
+}
+
 // Improved downloadImage function
 export const downloadImage = async (
   dataUrl: string,
   filename: string = "MetodoIP_Story_Confirmation.png"
 ) => {
-  // Check if Web Share API is supported and can share files
-  if (navigator.share && navigator.canShare) {
+  // Check if the device is mobile and Web Share API is supported
+  if (isMobileDevice() && navigator.share && navigator.canShare) {
     try {
       const blob = dataURLtoBlob(dataUrl);
       const file = new File([blob], filename, { type: blob.type });
