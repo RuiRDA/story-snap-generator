@@ -48,7 +48,7 @@ const ImageEditor: React.FC = () => {
       }
     };
     img.onerror = () => toast.error("Failed to load overlay image");
-    img.src = import.meta.env.BASE_URL + "lovable-uploads/Eu_vou_IP_22_feed.png";
+    img.src = import.meta.env.BASE_URL + "lovable-uploads/SDC_Eu_vou_feed.png";
   }, []);
 
   // Handle file selection
@@ -240,7 +240,7 @@ const ImageEditor: React.FC = () => {
           <div className="text-center lg:text-left animate-slide-up">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Gerador de Imagens para Feed</h1>
             <p className="text-muted-foreground text-sm sm:text-base md:px-0">
-              Crie imagens para o Feed do Instagram posicionando a sua foto dentro do frame do evento Método IP.
+              Crie imagens para o Feed do Instagram posicionando a sua foto dentro do frame do evento Saia do Caixão.
             </p>
           </div>
           

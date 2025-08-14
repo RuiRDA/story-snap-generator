@@ -6,7 +6,7 @@ import FeedImageEditor from "../components/FeedImageEditor";
 const Index = () => {
   // Set page title
   useEffect(() => {
-    document.title = "Método IP - Gerador de Stories para Instagram";
+    document.title = "Saia do Caixão - Gerador de Stories para Instagram";
   }, []);
 
   return (
@@ -16,9 +16,9 @@ const Index = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <span className="font-bold text-xl text-primary">#EUVOU</span>
-            <span className="font-bold text-lg">MÉTODO IP</span>
+            <span className="font-bold text-lg">Saia do Caixão</span>
           </div>
-          <p className="text-sm text-muted-foreground hidden sm:block">Método IP - Imagens para Instagram</p>
+          <p className="text-sm text-muted-foreground hidden sm:block">Saia do Caixão - Imagens para Instagram</p>
         </div>
       </header>
 
@@ -34,7 +34,7 @@ const Index = () => {
       <footer className="w-full py-6 px-4 border-t bg-background/80 backdrop-blur-lg">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Método IP - Todos os direitos reservados
+            © {new Date().getFullYear()} Saia do Caixão - Todos os direitos reservados
           </p>
         </div>
       </footer>
