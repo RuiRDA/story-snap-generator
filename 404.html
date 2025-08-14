@@ -4,9 +4,21 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      sessionStorage.redirect = location.href;
+      const redirect = sessionStorage.getItem('redirect');
+      if (redirect) {
+        sessionStorage.removeItem('redirect');
+        history.replaceState(null, null, redirect);
+      } else {
+        const path = location.pathname.startsWith('/story-snap-generator/')
+          ? location.pathname.substring('/story-snap-generator/'.length)
+          : location.pathname;
+        
+        if (path) {
+          sessionStorage.setItem('redirect', location.href);
+          location.href = '/story-snap-generator/';
+        }
+      }
     </script>
-    <meta http-equiv="refresh" content="0;URL='/story-snap-generator/'"></meta>
   </head>
   <body>
   </body>
