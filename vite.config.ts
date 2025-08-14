@@ -20,6 +20,9 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    copyPublicDir: true,
+  },
 }));
 
 
