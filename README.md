@@ -1,69 +1,78 @@
-# Welcome to your Lovable project
+# Story Snap Generator
 
-## Project info
+This is a React application, built with Vite and TypeScript, that allows users to generate images for Instagram Stories and Feed with a custom overlay.
 
-**URL**: https://lovable.dev/projects/9a64cca1-07c0-4e29-a91e-e3bfd7d9ecc2
+## Features
 
-## How can I edit this code?
+-   **Modular Architecture:** The application is built with a modular architecture, making it easy to add new pages and features.
+-   **Customizable Overlays:** The image editors accept an `overlayImage` prop, allowing for different overlays to be used on different pages.
+-   **Two Pages:** The application has two pages:
+    -   The main page, which uses the default overlay images.
+    -   The "Embaixadores" page, which uses a different set of overlay images.
+-   **GitHub Pages Deployment:** The application is configured for easy deployment to GitHub Pages.
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/9a64cca1-07c0-4e29-a91e-e3bfd7d9ecc2) and start prompting.
+-   Node.js (v18 or higher)
+-   npm
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation
 
-**Use your preferred IDE**
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/ruirda/story-snap-generator.git
+    ```
+2.  Install the dependencies:
+    ```bash
+    npm install
+    ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Running the Application
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+To start the development server, run the following command:
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Available Scripts
 
-**Use GitHub Codespaces**
+-   `npm run dev`: Starts the development server.
+-   `npm run build`: Builds the application for production.
+-   `npm run lint`: Lints the code.
+-   `npm run preview`: Starts a local server to preview the production build.
+-   `npm run predeploy`: Builds the application before deploying.
+-   `npm run deploy`: Deploys the application to GitHub Pages.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/9a64cca1-07c0-4e29-a91e-e3bfd7d9ecc2) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+```
+.
+├── public
+│   ├── lovable-uploads
+│   │   ├── SDC_Embaixador_feed.png
+│   │   ├── SDC_Embaixador_Story.png
+│   │   ├── SDC_Eu_vou_feed.png
+│   │   └── SDC_Eu_vou_story.png
+│   └── 404.html
+├── src
+│   ├── components
+│   │   ├── FeedImageEditor.tsx
+│   │   ├── ImageEditingPage.tsx
+│   │   ├── Layout.tsx
+│   │   └── StoryImageEditor.tsx
+│   ├── pages
+│   │   ├── Embaixadors.tsx
+│   │   ├── Index.tsx
+│   │   └── NotFound.tsx
+│   ├── utils
+│   │   ├── feedImageProcessing.ts
+│   │   └── storyImageProcessing.ts
+│   ├── App.tsx
+│   └── main.tsx
+├── package.json
+└── vite.config.ts
