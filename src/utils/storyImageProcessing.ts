@@ -196,7 +196,7 @@ function isMobileDevice(): boolean {
 // Improved downloadImage function
 export const downloadImage = async (
   dataUrl: string,
-  filename: string = "MetodoIP_Story_Confirmation.png"
+  filename: string = "SDC_Story_Confirmation.png"
 ) => {
   // Check if the device is mobile and Web Share API is supported
   if (isMobileDevice() && navigator.share && navigator.canShare) {
