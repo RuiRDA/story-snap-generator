@@ -5,11 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafgraph/spa-github-pages
-      // Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
-      // ----------------------------------------------------------------------
-      // This script checks if a redirect is required and performs it if needed.
       (function(l) {
         if (l.search) {
           var q = {};
@@ -19,7 +14,7 @@
           });
           if (q.p !== undefined) {
             window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + (q.p || '') +
+              l.pathname.split('/').slice(0, -1).join('/') + (q.p || '') +
               (q.q ? ('?' + q.q) : '') +
               l.hash
             );
@@ -43,6 +38,7 @@
     <link rel="stylesheet" crossorigin href="/story-snap-generator/assets/index-CdcgAcfD.css">
   </head>
   <!--  Feito por Rui Rodrigues de Andrade -->
+        <!-- sdc! -->
   <body>
     <div id="root"></div>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
