@@ -15,7 +15,11 @@ import {
   stripExifData
 } from "../utils/storyImageProcessing";
 
-const ImageEditor: React.FC = () => {
+interface StoryImageEditorProps {
+  overlayImage: string;
+}
+
+const ImageEditor: React.FC<StoryImageEditorProps> = ({ overlayImage: overlayImageSrc }) => {
   // State for the uploaded image
   const [userImage, setUserImage] = useState<HTMLImageElement | null>(null);
   const [overlayImage, setOverlayImage] = useState<HTMLImageElement | null>(null);
@@ -48,7 +52,7 @@ const ImageEditor: React.FC = () => {
       }
     };
     img.onerror = () => toast.error("Failed to load overlay image");
-    img.src = import.meta.env.BASE_URL + "lovable-uploads/SDC_Eu_vou_story.png";
+    img.src = import.meta.env.BASE_URL + overlayImageSrc;
   }, []);
 
   // Handle file selection
