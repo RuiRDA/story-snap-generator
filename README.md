@@ -368,59 +368,7 @@ export default defineConfig({
 })
 ```
 
-## 🤝 Contribuir
 
-Contribuições são bem-vindas! Para contribuir:
-
-1. **Fork o projeto**
-2. **Crie uma branch para a sua funcionalidade**
-   ```bash
-   git checkout -b feature/nova-funcionalidade
-   ```
-3. **Commit as suas alterações**
-   ```bash
-   git commit -m 'Adiciona nova funcionalidade'
-   ```
-4. **Push para a branch**
-   ```bash
-   git push origin feature/nova-funcionalidade
-   ```
-5. **Abra um Pull Request**
-
-### Diretrizes para Contribuição
-
-- Siga as convenções de código existentes
-- Adicione testes para novas funcionalidades
-- Actualize a documentação quando necessário
-- Use mensagens de commit descritivas
-
-### Reportar Bugs
-
-Para reportar bugs, abra uma issue com:
-- Descrição detalhada do problema
-- Passos para reproduzir
-- Screenshots (se aplicável)
-- Informações do browser/sistema
-
-## 📝 Licença
-
-Este projeto é open source e está disponível sob a [Licença MIT](LICENSE).
-
-## 🙏 Agradecimentos
-
-- [Radix UI](https://www.radix-ui.com/) - Componentes de UI acessíveis
-- [shadcn/ui](https://ui.shadcn.com/) - Componentes de UI bonitos
-- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utilitário
-- [Lucide](https://lucide.dev/) - Ícones bonitos
-- [Vite](https://vitejs.dev/) - Build tool rápido
-
-## 📞 Suporte
-
-Se tiver dúvidas ou precisar de ajuda:
-
-1. Consulte a documentação acima
-2. Procure nas [Issues](https://github.com/ruirda/story-snap-generator/issues) existentes
-3. Abra uma nova issue se necessário
 
 ---
 
